@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PriceSmart App</title>
+  <style>
+    /* Restablecer márgenes y padding */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Cuerpo de la página */
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #000;
+      overflow: hidden; /* Evita el desplazamiento */
+      font-family: 'Sans Serif', sans-serif; /* Fuente Sans Serif */
+    }
+
+    /* Contenedor de la imagen */
+    .container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Imagen de la captura de pantalla (ajuste al tamaño del viewport) */
+    img {
+      width: 100%; /* Se ajusta al ancho del dispositivo */
+      max-width: 390px; /* Ajuste para iPhone 12 (ancho en puntos) */
+      height: auto; /* Mantiene la proporción de la imagen */
+      object-fit: contain; /* Asegura que la imagen no se recorte ni se distorsione */
+    }
+
+    /* Estilo para mostrar la hora (color rojo, sin fondo, fuente Sans Serif, negrita) */
+    .time {
+      position: absolute;
+      top: 75%; /* La hora está al 75% de la pantalla */
+      left: 50%;
+      transform: translateX(-50%);
+      color: red; /* Color rojo para el reloj */
+      font-size: 1.8em; /* Tamaño ajustado a un valor intermedio */
+      font-weight: bold; /* Negrita */
+      font-family: 'Sans Serif', sans-serif; /* Fuente Sans Serif */
+    }
+
+    /* Estilo para mostrar la fecha (ubicada al 80% de la pantalla) */
+    .date {
+      position: absolute;
+      top: 80%; /* La fecha está al 80% de la pantalla */
+      left: 50%;
+      transform: translateX(-50%);
+      color: red; /* Color rojo para la fecha */
+      font-size: 1.2em;
+      font-weight: bold;
+      font-family: 'Sans Serif', sans-serif; /* Fuente Sans Serif */
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Imagen de la captura de pantalla -->
+    <img src="screenshot.jpg" alt="Captura de Pantalla">
+
+    <!-- Hora -->
+    <div class="time" id="time"></div>
+
+    <!-- Fecha -->
+    <div class="date" id="date"></div>
+  </div>
+
+  <script>
+    // Función para actualizar la hora (incluyendo segundos) y la fecha
+    function updateDateTime() {
+      const now = new Date();
+      
+      // Formato de la hora (12 horas)
+      let hours = now.getHours();
+      const minutes = now.getMinutes();
+      const seconds = now.getSeconds();
+      const ampm = hours >= 12 ? 'pm' : 'am';
+      hours = hours % 12;
+      hours = hours ? hours : 12; // La hora 0 debe ser 12
+      const formattedTime = `${hours}:${minutes < 10 ? '0' + minutes : minutes}:${seconds < 10 ? '0' + seconds : seconds} ${ampm}`;
+
+      // Formato de la fecha (ejemplo: Jan 11, 2025)
+      const formattedDate = now.toLocaleString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+
+      // Actualizar los elementos de hora y fecha
+      document.getElementById('time').textContent = formattedTime;
+      document.getElementById('date').textContent = formattedDate;
+    }
+
+    // Actualizar la hora y la fecha cada segundo
+    setInterval(updateDateTime, 1000);
+  </script>
+</body>
+</html>
